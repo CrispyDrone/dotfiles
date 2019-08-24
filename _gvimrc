@@ -6,9 +6,6 @@ set background=dark
 colorscheme solarized
 " colorscheme gruvbox
 
-set langmenu=en_US.UTF-8
-language en
-
 " change guitablabel
 function GuiTabLabel()
 	let label = ''

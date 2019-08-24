@@ -1,22 +1,46 @@
-" disable menubar
-set guioptions-=m
-" disable toolbar
-set guioptions-=T
-" disable scrollbar
-set guioptions-=r
-" always show statusbar
+" set python dll path
+set pythonthreedll=python37.dll
+" circumvent bug in vim where imp is deprecated in favor of importlib see <https://github.com/vim/vim/issues/3117>
+if has('python3')
+  silent! python3 1
+endif
+
+" disable netrw
+let g:loaded_netrwPlugin = 1
+" Since we disable netrw gx will not work any more. Create a function for it
+function! HandleURL()
+  let s:uri = matchstr(getline("."), '[a-z]*:\/\/[^ >,;()]*')
+  let s:uri = shellescape(s:uri, 1)
+    echom s:uri
+    if s:uri != ""
+      silent exec "!start " . s:uri
+      :redraw!
+    else
+      echo "No URI found in line."
+    endif
+endfunction
+
+nnoremap gx :call HandleURL()<CR>
+
+" Set status bar to always show
 set laststatus=2
-" show the cursor position all the time
+" Disable menu bar
+set guioptions-=m
+" Disable toolbar
+set guioptions-=T
+" Disable scrollbar
+set guioptions-=r
+" Show the cursor position all the time
 set ruler
+" Set menu language to english and language (used during error messages
+" etc..?? to english)
+set langmenu=en_US.UTF-8
+language en
 
 set encoding=utf-8
 set fileencoding=utf-8
 " no compatibility with Vi
 set nocompatible
-" highlighting and syntax colours enabled
-" syntax enable
-" filetype detection on + plugin loading on
-" filetype plugin on
 " Search down into subfolders
 " Provides tab-completion for all file-related tasks
 set path+=**
@@ -31,8 +55,6 @@ imap <F3> <C-R>=strftime("%Y-%m-%d %H:%M")<CR>
 " navigation and autocompletion
 command! MakeTags !ctags -R .
 
-" disable netrw
-let g:loaded_netrwPlugin = 1
 command! -nargs=? -complete=dir Explore Dirvish <args>
 command! -nargs=? -complete=dir Sexplore belowright split | silent Dirvish <args>
 command! -nargs=? -complete=dir Vexplore leftabove vsplit | silent Dirvish <args>
@@ -71,19 +93,25 @@ if has('syntax') && has('eval')
 endif
 
 filetype off                  " required
-set rtp+=~\vimfiles\bundle\Vundle.vim
-call vundle#begin('~\vimfiles\bundle')
+set rtp+=~\.vim\bundle\Vundle.vim
+call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
+Plugin 'altercation/vim-colors-solarized'
 Plugin 'irrationalistic/vim-tasks'
-Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'OmniSharp/omnisharp-vim'
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
 Plugin 'justinmk/vim-dirvish'
+Plugin 'ctrlpvim/ctrlp.vim'
 call vundle#end()            " required
+" filetype detection on + plugin loading on + indentation on (?)
 filetype plugin indent on    " required
+" highlighting and syntax colours enabled
 syntax enable
+" disable saving of options (= ? ) when using mksession for compatibility with
+" specific plugins
+set sessionoptions-=options
 
 " allow project specific vimrc configuration
 set exrc 
