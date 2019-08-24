@@ -1,13 +1,10 @@
 set guifont=Consolas:h10
-set guifontwide=MingLiU:h10
+" set guifontwide=MingLiU:h10
 set background=dark
 " source $VIMRUNTIME/vimrc_example.vim
 
 colorscheme solarized
 " colorscheme gruvbox
-
-set langmenu=en_US.UTF-8
-language en
 
 " change guitablabel
 function GuiTabLabel()
