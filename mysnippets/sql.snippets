@@ -1,0 +1,18 @@
+snippet template "Insert script description and some general SQL commands." b
+-- Author: <User>
+-- Date: `!v <F3>`
+-- Ticket: <Ticket>
+-- Description: <tab-completable>
+
+SET NOCOUNT ON; -- Removes messages about the number of affected rows by INSERT/UPDATE/DELETE statements.
+
+SET ANSI_NULLS ON; -- Specify ISO compliant behavior for null comparisons
+
+SET QUOTED_IDENTIFIER ON; -- Specify ISO compliant behavior for quoting object identifiers and strings
+
+BEGIN TRANSACTION
+
+${VISUAL}
+
+ROLLBACK TRANSACTION
+endsnippet
