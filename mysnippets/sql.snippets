@@ -1,0 +1,29 @@
+snippet template "Insert sql script header and basic setup commands." b
+-- Author: `echo %USERNAME%`$1
+-- Date: `!v strftime("%Y-%m-%d %H:%M")`
+-- Ticket: `!p from pathlib import Path;tickets_index=1; tickets_match=False; 
+for dir in Path(path).parts: 
+  if tickets_match:
+    if tickets_index == 2:
+      snip.rv=dir
+      break
+    else:
+      tickets_index+=1
+  elif dir.lower().find('tickets') != -1:
+    tickets_match=True
+`$2
+-- Description: $3
+
+SET NOCOUNT ON; -- Removes messages about the number of affected rows by INSERT/UPDATE/DELETE statements.
+
+SET ANSI_NULLS ON; -- Specify ISO compliant behavior for null comparisons
+
+SET QUOTED_IDENTIFIER ON; -- Specify ISO compliant behavior for quoting object identifiers and strings
+
+BEGIN TRANSACTION
+
+${VISUAL}
+$0
+
+ROLLBACK TRANSACTION
+endsnippet

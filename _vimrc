@@ -24,6 +24,7 @@ set path+=**                                                    " Search down in
 set wildmenu                                                    " Display all matching files when we tab complete
 
 set rtp+=~\.vim\bundle\Vundle.vim                               
+set rtp+=$HOME/mysnippets
 set directory=$HOME/Dropbox/Notes/_vim/_swp//                   " store backup, undo, and swap files in special directory
 set backupdir=$HOME/Dropbox/Notes/_vim/_backup//
 set undodir=$HOME/Dropbox/Notes/_vim/_undo//
@@ -67,11 +68,13 @@ let g:OmniSharp_server_stdio = 1
 
 " <<-------------------- ULTISNIPS -------------------->>
 
-let g:UltiSnipsExpandTrigger="<tab>"                            " Trigger configuration for UltiSnips
+let g:UltiSnipsSnippetsDir="$HOME/mysnippets"					" Ensure UltiSnipsEdit command edits snippets in this custom snippets directory
+let g:UltiSnipsSnippetDirectories=[$HOME.'/mysnippets', "UltiSnips"]	" Define directories UltiSnips searches for snippets
+let g:UltiSnipsExpandTrigger="<tab>"                            		" Trigger configuration for UltiSnips
 let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 
-let g:UltiSnipsEditSplit="vertical"                             " let :UltiSnipsEdit split window vertically
+let g:UltiSnipsEditSplit="vertical"                             		" let :UltiSnipsEdit split window vertically
 
 " <<-------------------- END ULTISNIPS -------------------->>
 
@@ -127,6 +130,10 @@ command! -nargs=? -complete=dir Vexplore leftabove vsplit | silent Dirvish <args
 " remap open file in split window to vertical version
 nnoremap <C-W><C-F> <C-W>vgf
 
+" If windows/dos, remove CTRL-X mapping to cut text
+if has('win32') || has('win64')
+	silent! vunmap <C-X>
+endif
 "<-------------------- END MAPPINGS -------------------->
 
 "<-------------------- PACKAGES? -------------------->
