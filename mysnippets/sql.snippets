@@ -1,8 +1,8 @@
 snippet template "Insert script description and some general SQL commands." b
--- Author: <User>
--- Date: `!v <F3>`
--- Ticket: <Ticket>
--- Description: <tab-completable>
+-- Author: `echo %USERNAME%`$1
+-- Date: `!v strftime("%Y-%m-%d %H:%M")`
+-- Ticket: `cd ../.. > /dev/null && pwd`$2
+-- Description: $3
 
 SET NOCOUNT ON; -- Removes messages about the number of affected rows by INSERT/UPDATE/DELETE statements.
 
@@ -13,6 +13,7 @@ SET QUOTED_IDENTIFIER ON; -- Specify ISO compliant behavior for quoting object i
 BEGIN TRANSACTION
 
 ${VISUAL}
+$0
 
 ROLLBACK TRANSACTION
 endsnippet
