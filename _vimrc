@@ -4,6 +4,7 @@ set pythonthreedll=python37.dll                                 " set python dll
 if has('python3')                                               " circumvent bug in vim where imp is deprecated in favor of importlib see <https://github.com/vim/vim/issues/3117>
   silent! python3 1
 endif
+
 set number                                                      " Set line numbers to always show
 set relativenumber                                              " Use relative line numbers
 set textwidth=0                                                 " set max width of document
@@ -12,12 +13,13 @@ set guioptions-=m                                               " Disable menu b
 set guioptions-=T                                               " Disable toolbar
 set guioptions-=r                                               " Disable scrollbar
 set ruler                                                       " Show the cursor position all the time
-set langmenu=en_US.UTF-8                                        " Set menu language to english and language (used during error messages 
-language en                                                     " etc..?? to english)
 
+set langmenu=en_US.UTF-8                                        " Set menu language to english and language (used during error messages 
+language en_US                                                  " etc..?? to english)
 set encoding=utf-8
 set fileencoding=utf-8
 set nocompatible                                                " no compatibility with Vi
+
 set path+=**                                                    " Search down into subfolders
                                                                 " Provides tab-completion for all file-related tasks
 
@@ -35,9 +37,9 @@ set secure                                                      " disable unsecu
 
 set sessionoptions-=options                                     " remove certain options from being saved when using mksession command for plugin compatibility reasons
 
-" miscellaneous stuff
-" Set shell to bash instead of cmd
-" set shell=C:\Users\Eigenaar\Downloads\Computer\ stuff\Git-2.18.0-64-bit\git-bash.exe
+set shell=$PROGRAMW6432/Git/bin/bash.exe 			" set :term terminal to bash instead of cmd.exe
+
+set undofile							" enable persistent undo
 
 "<-------------------- END OPTIONS -------------------->
 
@@ -163,6 +165,7 @@ Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
 Plugin 'justinmk/vim-dirvish'
 Plugin 'ctrlpvim/ctrlp.vim'
+Plugin 'aquach/vim-http-client'
 call vundle#end()            " required
 " filetype detection on + plugin loading on + indentation on (?)
 filetype plugin indent on    " required
