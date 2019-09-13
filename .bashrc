@@ -10,3 +10,38 @@ alias http-prompt='winpty http-prompt'
 # variables
 Tickets='E:\Interparking\Tickets'
 MANPATH=$MANPATH:$HOME/share/man
+
+# functions
+# todo: support any path, not only from within the actual directory
+#surf()
+#{
+#	request="$1"
+#	shift
+#	args="$@"
+#
+#	if [ -f "${request}"/.init && -f "${request}"/.cleanup || echo 'Found .init but no matching .cleanup' >&2 ]
+#	then
+#		. "${request}"/.init
+#		winpty http-prompt --env tmp/"${request}" "${args}"
+#		. "${request}"/.cleanup
+#	else
+#		winpty http-prompt --env "${request}" "${args}"
+#	fi
+#}
+
+surf()
+{
+	env="$1"
+	echo "$request"
+	shift
+	args="$@"
+
+	if [ ! -f .init ] || [ ! -f .cleanup ]
+	then
+		winpty http-prompt --env "${env}" "${args}"
+	else
+		. .init
+		winpty http-prompt --env tmp/"${env}" "${args}"
+		. .cleanup
+	fi
+}
