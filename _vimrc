@@ -8,6 +8,7 @@ set guioptions-=m                                               " Disable menu b
 set guioptions-=T                                               " Disable toolbar
 set guioptions-=r                                               " Disable scrollbar
 set ruler                                                       " Show the cursor position all the time
+set showcmd							" display incomplete commands
 set langmenu=en_US.UTF-8                                        " Set menu language to english and language (used during error messages 
 language en                                                     " etc..?? to english)
 
@@ -19,6 +20,7 @@ set path+=**                                                    " Search down in
 
 set wildmenu                                                    " Display all matching files when we tab complete
 
+set rtp+=~\mysnippets
 set rtp+=~\.vim\bundle\Vundle.vim                               
 
 set exrc                                                        " allow project specific vimrc configuration
@@ -60,6 +62,8 @@ let g:OmniSharp_server_stdio = 1
 
 " <<-------------------- ULTISNIPS -------------------->>
 
+let g:UltiSnipsSnippetsDir="~/mysnippets"
+let g:UltiSnipsSnippetDirectories=[$HOME.'/mysnippets', "UltiSnips"]
 let g:UltiSnipsExpandTrigger="<tab>"                            " Trigger configuration for UltiSnips
 let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
@@ -120,6 +124,20 @@ command! -nargs=? -complete=dir Vexplore leftabove vsplit | silent Dirvish <args
 " remap open file in split window to vertical version
 nnoremap <C-W><C-F> <C-W>vgf
 
+" CTRL-U in insert mode deletes a lot.  Use CTRL-G u to first break undo,
+" so that you can undo CTRL-U after inserting a line break.
+" Revert with ":iunmap <C-U>".
+inoremap <C-U> <C-G>u<C-U>
+
+" Convenient command to see the difference between the current buffer and the
+" file it was loaded from, thus the changes you made.
+" Only define it when not defined already.
+" Revert with: ":delcommand DiffOrig".
+if !exists(":DiffOrig")
+  command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
+		  \ | wincmd p | diffthis
+endif
+
 "<-------------------- END MAPPINGS -------------------->
 
 "<-------------------- PACKAGES? -------------------->
@@ -149,6 +167,7 @@ Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
 Plugin 'justinmk/vim-dirvish'
 Plugin 'ctrlpvim/ctrlp.vim'
+Plugin 'aquach/vim-http-client'
 call vundle#end()            " required
 " filetype detection on + plugin loading on + indentation on (?)
 filetype plugin indent on    " required
