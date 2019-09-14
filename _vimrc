@@ -9,12 +9,13 @@ set guioptions-=T                                               " Disable toolba
 set guioptions-=r                                               " Disable scrollbar
 set ruler                                                       " Show the cursor position all the time
 set showcmd							" display incomplete commands
-set langmenu=en_US.UTF-8                                        " Set menu language to english and language (used during error messages 
-language en                                                     " etc..?? to english)
 
+set langmenu=en_US.UTF-8                                        " Set menu language to english and language (used during error messages 
+language en_US                                                  " etc..?? to english)
 set encoding=utf-8
 set fileencoding=utf-8
 set nocompatible                                                " no compatibility with Vi
+
 set path+=**                                                    " Search down into subfolders
                                                                 " Provides tab-completion for all file-related tasks
 
@@ -29,9 +30,9 @@ set secure                                                      " disable unsecu
 
 set sessionoptions-=options                                     " remove certain options from being saved when using mksession command for plugin compatibility reasons
 
-" miscellaneous stuff
-" Set shell to bash instead of cmd
-" set shell=C:\Users\Eigenaar\Downloads\Computer\ stuff\Git-2.18.0-64-bit\git-bash.exe
+set shell=$PROGRAMW6432/Git/bin/bash.exe 			" set :term terminal to bash instead of cmd.exe
+
+set undofile							" enable persistent undo
 
 "<-------------------- END OPTIONS -------------------->
 
@@ -136,6 +137,10 @@ inoremap <C-U> <C-G>u<C-U>
 if !exists(":DiffOrig")
   command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
 		  \ | wincmd p | diffthis
+ endif
+" If windows/dos, remove CTRL-X mapping to cut text
+if has('win32') || has('win64')
+	silent! vunmap <C-X>
 endif
 
 "<-------------------- END MAPPINGS -------------------->
