@@ -9,6 +9,7 @@ alias http-prompt='winpty http-prompt'
 
 # variables
 Tickets='E:\Interparking\Tickets'
+Requests='E:\Interparking\Requests'
 MANPATH=$MANPATH:$HOME/share/man
 
 # functions
@@ -33,6 +34,7 @@ surf()
 {
 	# $1 should always be the argument to http-prompt's `--env`
 	env="$1"
+	env_dir=$(dirname "${env}")
 
 	# All other arguments need to be parsed. 
 	# I will add support for changing the url parameters by allowing a `-u` flag followed by a new value for one of the url tokens as saved in the request file.
@@ -45,12 +47,12 @@ surf()
 	shift
 	args="$@"
 
-	if [ ! -f .init ] || [ ! -f .cleanup ]
+	if [ ! -f "${env_dir}"/.init ] || [ ! -f  "${env_dir}"/.cleanup ]
 	then
 		winpty http-prompt --env "${env}" "${args}"
 	else
-		. .init
+		. "${env_dir}"/.init
 		winpty http-prompt --env "${env}" "${args}"
-		. .cleanup
+		. "${env_dir}"/.cleanup
 	fi
 }
