@@ -23,6 +23,9 @@ set wildmenu                                                    " Display all ma
 
 set rtp+=~\mysnippets
 set rtp+=~\.vim\bundle\Vundle.vim                               
+set directory=$HOME/_vim/_swp//                   		" store backup, undo, and swap files in special directory
+set backupdir=$HOME/_vim/_backup//
+set undodir=$HOME/_vim/_undo//
 
 set exrc                                                        " allow project specific vimrc configuration
 
@@ -74,6 +77,7 @@ let g:UltiSnipsEditSplit="vertical"                             " let :UltiSnips
 " <<-------------------- END ULTISNIPS -------------------->>
 
 " <<-------------------- NETRW -------------------->>
+
 let g:loaded_netrwPlugin = 1                                    " disable netrw
 " File browsing
 " let g:netrw_banner=0                                          " disable banner
@@ -85,6 +89,16 @@ let g:loaded_netrwPlugin = 1                                    " disable netrw
 " let g:netrw_list_hide.=',\(^\|\s\s\)\zs\.\S\+'                " hide dot files, unnecessary
 
 " <<-------------------- END NETRW -------------------->>
+
+" <<-------------------- CTRLP -------------------->>
+
+let g:ctrlp_working_path_mode = 'ra'				" search for a 'root' folder (containing .git,...). If none found, use current directory
+								" unless it is a child of 'cwd' (see :lcd).
+let g:ctrlp_show_hidden = 1					" enable searching for dotfiles
+let g:ctrlp_max_files= 0					" for some reason this is necessary to ensure that all files are found, see: <https://github.com/kien/ctrlp.vim/issues/234>
+let g:ctrlp_max_depth = 40					" increase default search depth
+
+" <<-------------------- END CTRLP -------------------->>
 
 "<-------------------- END VARIABLES -------------------->
 
