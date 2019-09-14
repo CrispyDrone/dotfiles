@@ -13,46 +13,55 @@ Requests='E:\Interparking\Requests'
 MANPATH=$MANPATH:$HOME/share/man
 
 # functions
-# todo: support any path, not only from within the actual directory
-#surf()
-#{
-#	request="$1"
-#	shift
-#	args="$@"
-#
-#	if [ -f "${request}"/.init && -f "${request}"/.cleanup || echo 'Found .init but no matching .cleanup' >&2 ]
-#	then
-#		. "${request}"/.init
-#		winpty http-prompt --env tmp/"${request}" "${args}"
-#		. "${request}"/.cleanup
-#	else
-#		winpty http-prompt --env "${request}" "${args}"
-#	fi
-#}
-
 surf()
 {
 	# $1 should always be the argument to http-prompt's `--env`
+	declare env
+	declare env_dir
+	declare skip_one
+	declare -a url_params
+	declare -a args
+
 	env="$1"
 	env_dir=$(dirname "${env}")
+	skip_one=false
+
+	shift
 
 	# All other arguments need to be parsed. 
 	# I will add support for changing the url parameters by allowing a `-u` flag followed by a new value for one of the url tokens as saved in the request file.
+	for arg do
+
+		if [ ${skip_one} = true ]
+		then
+			skip_one=false
+			continue
+		fi
+
+		shift
+
+		if [ "$arg" = '-u' ]
+		then
+			url_params+=("${1}")
+			shift
+			skip_one=true
+			continue
+		fi
+
+		set -- "$@" "$arg"
+	done
+
+	args="$@"
 	# Other flags can be supported as well such as `-r` which would be followed by a raw url. Cannot be combined with `-u`.
 
 	# Any other parameters are passed as *is* to `http-prompt`
 
-	# Instead of having git branches for the different environments. I think it will be easier to just split each request folder into 4 folders, one per environment.
-	# By default anything will operate on `dev` environment, unless you manually specify `--env=dev` or change the environment variable `REQUESTS_ENVIRONMENT` for example.
-	shift
-	args="$@"
-
 	if [ ! -f "${env_dir}"/.init ] || [ ! -f  "${env_dir}"/.cleanup ]
 	then
-		winpty http-prompt --env "${env}" "${args}"
+		winpty http-prompt --env "${env}" "${args[@]}"
 	else
-		. "${env_dir}"/.init
-		winpty http-prompt --env "${env}" "${args}"
-		. "${env_dir}"/.cleanup
+		. "${env_dir}"/.init "${url_params[@]}"
+		winpty http-prompt --env "${env}" "${args[@]}"
+		. "${env_dir}"/.cleanup "${url_params[@]}"
 	fi
 }
