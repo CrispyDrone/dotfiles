@@ -1,5 +1,5 @@
 set guifont=Consolas:h10
-set guifontwide=MingLiU:h10
+" set guifontwide=MingLiU:h10
 set background=dark
 " source $VIMRUNTIME/vimrc_example.vim
 

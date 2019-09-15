@@ -13,6 +13,7 @@ set guioptions-=m                                               " Disable menu b
 set guioptions-=T                                               " Disable toolbar
 set guioptions-=r                                               " Disable scrollbar
 set ruler                                                       " Show the cursor position all the time
+set showcmd							" display incomplete commands
 
 set langmenu=en_US.UTF-8                                        " Set menu language to english and language (used during error messages 
 language en_US                                                  " etc..?? to english)
@@ -81,6 +82,7 @@ let g:UltiSnipsEditSplit="vertical"                             		" let :UltiSni
 " <<-------------------- END ULTISNIPS -------------------->>
 
 " <<-------------------- NETRW -------------------->>
+
 let g:loaded_netrwPlugin = 1                                    " disable netrw
 " File browsing
 " let g:netrw_banner=0                                          " disable banner
@@ -92,6 +94,16 @@ let g:loaded_netrwPlugin = 1                                    " disable netrw
 " let g:netrw_list_hide.=',\(^\|\s\s\)\zs\.\S\+'                " hide dot files, unnecessary
 
 " <<-------------------- END NETRW -------------------->>
+
+" <<-------------------- CTRLP -------------------->>
+
+let g:ctrlp_working_path_mode = 'ra'				" search for a 'root' folder (containing .git,...). If none found, use current directory
+								" unless it is a child of 'cwd' (see :lcd).
+let g:ctrlp_show_hidden = 1					" enable searching for dotfiles
+let g:ctrlp_max_files= 0					" for some reason this is necessary to ensure that all files are found, see: <https://github.com/kien/ctrlp.vim/issues/234>
+let g:ctrlp_max_depth = 40					" increase default search depth
+
+" <<-------------------- END CTRLP -------------------->>
 
 "<-------------------- END VARIABLES -------------------->
 
@@ -132,10 +144,24 @@ command! -nargs=? -complete=dir Vexplore leftabove vsplit | silent Dirvish <args
 " remap open file in split window to vertical version
 nnoremap <C-W><C-F> <C-W>vgf
 
+" CTRL-U in insert mode deletes a lot.  Use CTRL-G u to first break undo,
+" so that you can undo CTRL-U after inserting a line break.
+" Revert with ":iunmap <C-U>".
+inoremap <C-U> <C-G>u<C-U>
+
+" Convenient command to see the difference between the current buffer and the
+" file it was loaded from, thus the changes you made.
+" Only define it when not defined already.
+" Revert with: ":delcommand DiffOrig".
+if !exists(":DiffOrig")
+  command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
+		  \ | wincmd p | diffthis
+ endif
 " If windows/dos, remove CTRL-X mapping to cut text
 if has('win32') || has('win64')
 	silent! vunmap <C-X>
 endif
+
 "<-------------------- END MAPPINGS -------------------->
 
 "<-------------------- PACKAGES? -------------------->
