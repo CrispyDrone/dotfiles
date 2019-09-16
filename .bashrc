@@ -21,12 +21,38 @@ surf()
 	declare skip_one
 	declare -a url_params
 	declare -a args
+	declare url_command
+	declare url_env_export
+	declare url_var
+	declare url
+	declare swagger_env_export
+	declare swagger_url
 
 	env="$1"
 	env_dir=$(dirname "${env}")
 	skip_one=false
 
 	shift
+
+	if [ ${1:-''} = '-s' ]
+	then
+		if [ ! -f "${env_dir}/.init" ]
+		then
+			return 1;
+		fi
+
+		url_command=$(<"${env}")
+		url_var="${url_command##*\$\{}"
+		url_var="${url_var%%\}}"
+		url_env_export=$(grep -i "${url_var}=" "${env_dir}/.init")
+		url=${url_env_export##*=}
+
+		swagger_env_export=$(grep -i "${url_var}_SWAGGER=" "${env_dir}/.init")
+		swagger_url=${swagger_env_export##*=}
+
+		winpty http-prompt "$url" --spec "$swagger_url"
+		return 0;
+	fi
 
 	# All other arguments need to be parsed. 
 	# I will add support for changing the url parameters by allowing a `-u` flag followed by a new value for one of the url tokens as saved in the request file.
@@ -64,4 +90,11 @@ surf()
 		winpty http-prompt --env "${env}" "${args[@]}"
 		. "${env_dir}"/.cleanup "${url_params[@]}"
 	fi
+
+	return 0;
+}
+
+jq()
+{
+	jq-win64.exe "$@"
 }
