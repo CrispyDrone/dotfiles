@@ -27,6 +27,12 @@ surf()
 	declare url
 	declare swagger_env_export
 	declare swagger_url
+	declare current_dir
+	declare old_current_dir
+	declare g_dir
+	declare -i g_init_exists
+	declare -i g_cleanup_exists
+	declare missing_g_file='File %s does not exist. Skipping variable substitution.'
 
 	env="$1"
 	env_dir=$(dirname "${env}")
@@ -56,6 +62,7 @@ surf()
 
 	# All other arguments need to be parsed. 
 	# I will add support for changing the url parameters by allowing a `-u` flag followed by a new value for one of the url tokens as saved in the request file.
+	# Other flags can be supported as well such as `-r` which would be followed by a raw url. Cannot be combined with `-u`.
 	for arg do
 
 		if [ ${skip_one} = true ]
@@ -77,18 +84,47 @@ surf()
 		set -- "$@" "$arg"
 	done
 
-	args="$@"
-	# Other flags can be supported as well such as `-r` which would be followed by a raw url. Cannot be combined with `-u`.
-
 	# Any other parameters are passed as *is* to `http-prompt`
+	args="$@"
 
-	if [ ! -f "${env_dir}"/.init ] || [ ! -f  "${env_dir}"/.cleanup ]
+	# Find the directory containing .g.init and .g.cleanup, if it doesn't exist, execute without replacing variables and echo warning
+	current_dir="${env_dir}"
+
+	while [ ! "${current_dir}" = "${old_current_dir}" ]
+	do
+		# awkward because of lack of xor operator
+		[ -f  "${current_dir}"/.g.init ]; g_init_exists=$?
+		[ -f  "${current_dir}"/.g.cleanup ]; g_cleanup_exists=$?
+
+		if [ ! "${g_init_exists}" -eq "${g_cleanup_exists}" ]
+		then
+			if [ "${g_init_exists}" -eq 0 ]
+			then
+				printf "${missing_g_file}\n" ".g.cleanup"
+			else
+				printf "${missing_g_file}\n" ".g.init"
+			fi
+			break
+		fi
+
+		if [ -f "${current_dir}"/.g.init ] && [ -f "${current_dir}"/.g.cleanup ]
+		then
+			g_dir="${current_dir}"
+			break
+		fi
+
+		old_current_dir="${current_dir}"
+		current_dir="${current_dir}"/..
+	done
+
+	# start http-prompt
+	if [ -z "${g_dir}" ]
 	then
 		winpty http-prompt --env "${env}" "${args[@]}"
 	else
-		. "${env_dir}"/.init "${url_params[@]}"
+		. "${g_dir}"/.g.init "${env_dir}" "${url_params[@]}"
 		winpty http-prompt --env "${env}" "${args[@]}"
-		. "${env_dir}"/.cleanup "${url_params[@]}"
+		. "${g_dir}"/.g.cleanup "${env_dir}" "${url_params[@]}"
 	fi
 
 	return 0;
