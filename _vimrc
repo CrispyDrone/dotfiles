@@ -38,7 +38,9 @@ set secure                                                      " disable unsecu
 
 set sessionoptions-=options                                     " remove certain options from being saved when using mksession command for plugin compatibility reasons
 
-set shell=$PROGRAMW6432/Git/bin/bash.exe 			" set :term terminal to bash instead of cmd.exe
+"set shell=$PROGRAMW6432\Git\bin\bash.exe			" set :term terminal to bash instead of cmd.exe
+								" this currently breaks :!{cmd} and :PluginInstall from Vundle
+								" see <https://github.com/vim/vim/issues/4950>
 
 set undofile							" enable persistent undo
 
@@ -126,6 +128,12 @@ endfunction
 
 "<-------------------- MAPPINGS -------------------->
 
+" automatically create any missing directories when saving a file
+augroup vimrc
+	autocmd!
+	au BufWritePre,FileWritePre * silent! call mkdir(expand('<afile>:p:h'), 'p')
+augroup END
+
 " remap HandleUrl to gx to replace disabled netrw's gx
 nnoremap gx :call HandleURL()<CR>
 
@@ -180,10 +188,9 @@ endif
 
 "<-------------------- PLUGINS -------------------->
 
-filetype off                  " required
+filetype off                  			" required
 call vundle#begin()
-" let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
+Plugin 'VundleVim/Vundle.vim' 			" let Vundle manage Vundle, required
 Plugin 'altercation/vim-colors-solarized'
 Plugin 'irrationalistic/vim-tasks'
 Plugin 'OmniSharp/omnisharp-vim'
@@ -192,10 +199,9 @@ Plugin 'honza/vim-snippets'
 Plugin 'justinmk/vim-dirvish'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'aquach/vim-http-client'
-call vundle#end()            " required
-" filetype detection on + plugin loading on + indentation on (?)
-filetype plugin indent on    " required
-" highlighting and syntax colours enabled
-syntax enable
+Plugin 'itchyny/calendar.vim'
+call vundle#end()            			" required
+filetype plugin indent on 			" filetype detection on + plugin loading on + indentation on (?)
+syntax enable 					" highlighting and syntax colours enabled
 
 "<-------------------- END PLUGINS -------------------->
