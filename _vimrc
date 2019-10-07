@@ -6,7 +6,8 @@ set textwidth=0                                                 " set max width 
 set laststatus=2                                                " Set status bar to always show
 set guioptions-=m                                               " Disable menu bar
 set guioptions-=T                                               " Disable toolbar
-set guioptions-=r                                               " Disable scrollbar
+set guioptions-=r                                               " Disable righthand scrollbar
+set guioptions-=L                                               " Disable lefthand scrollbar
 set ruler                                                       " Show the cursor position all the time
 set showcmd							" display incomplete commands
 
@@ -33,7 +34,9 @@ set secure                                                      " disable unsecu
 
 set sessionoptions-=options                                     " remove certain options from being saved when using mksession command for plugin compatibility reasons
 
-set shell=$PROGRAMW6432/Git/bin/bash.exe 			" set :term terminal to bash instead of cmd.exe
+"set shell=$PROGRAMW6432\Git\bin\bash.exe			" set :term terminal to bash instead of cmd.exe
+								" this currently breaks :!{cmd} and :PluginInstall from Vundle
+								" see <https://github.com/vim/vim/issues/4950>
 
 set undofile							" enable persistent undo
 
@@ -43,9 +46,18 @@ set undofile							" enable persistent undo
 
 "<<-------------------- VIM -------------------->>
 
+let mapleader="\\"
+let maplocalleader="\<space>"
 let g:sh_fold_enabled= 1                                        " enable fold level 1 for shell files
 
 "<<-------------------- END VIM -------------------->>
+
+" <<-------------------- CALENDAR -------------------->>
+
+let g:calendar_google_calendar = 1
+let g:calendar_google_task = 1
+
+" <<-------------------- END CALENDAR -------------------->>
 
 " <<-------------------- OMNISHARP-------------------->>
 
@@ -66,13 +78,13 @@ let g:OmniSharp_server_stdio = 1
 
 " <<-------------------- ULTISNIPS -------------------->>
 
-let g:UltiSnipsSnippetsDir="~/mysnippets"
-let g:UltiSnipsSnippetDirectories=[$HOME.'/mysnippets', "UltiSnips"]
-let g:UltiSnipsExpandTrigger="<tab>"                            " Trigger configuration for UltiSnips
+let g:UltiSnipsSnippetsDir="~/mysnippets"					" Ensure UltiSnipsEdit command edits snippets in this custom snippets directory
+let g:UltiSnipsSnippetDirectories=[$HOME.'/mysnippets', "UltiSnips"]		" Define directories UltiSnips searches for snippets
+let g:UltiSnipsExpandTrigger="<tab>"                            		" Trigger configuration for UltiSnips
 let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 
-let g:UltiSnipsEditSplit="vertical"                             " let :UltiSnipsEdit split window vertically
+let g:UltiSnipsEditSplit="vertical"                             		" let :UltiSnipsEdit split window vertically
 
 " <<-------------------- END ULTISNIPS -------------------->>
 
@@ -159,6 +171,16 @@ endif
 
 "<-------------------- END MAPPINGS -------------------->
 
+"<-------------------- AUTOCOMMANDS -------------------->
+
+" automatically create any missing directories when saving a file
+augroup vimrc
+	autocmd!
+	au BufWritePre,FileWritePre * silent! call mkdir(expand('<afile>:p:h'), 'p')
+augroup END
+
+"<-------------------- END AUTOCOMMANDS -------------------->
+
 "<-------------------- PACKAGES? -------------------->
 
 " Add optional packages.
@@ -175,22 +197,21 @@ endif
 
 "<-------------------- PLUGINS -------------------->
 
-filetype off                  " required
+filetype off                  			" required
 call vundle#begin()
-" let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
+Plugin 'VundleVim/Vundle.vim' 			" let Vundle manage Vundle, required
 Plugin 'altercation/vim-colors-solarized'
-Plugin 'irrationalistic/vim-tasks'
+Plugin 'CrispyDrone/vim-tasks'
 Plugin 'OmniSharp/omnisharp-vim'
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
 Plugin 'justinmk/vim-dirvish'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'aquach/vim-http-client'
-call vundle#end()            " required
-" filetype detection on + plugin loading on + indentation on (?)
-filetype plugin indent on    " required
-" highlighting and syntax colours enabled
-syntax enable
+Plugin 'itchyny/calendar.vim'
+Plugin 'tpope/vim-surround'
+call vundle#end()            			" required
+filetype plugin indent on 			" filetype detection on + plugin loading on + indentation on (?)
+syntax enable 					" highlighting and syntax colours enabled
 
 "<-------------------- END PLUGINS -------------------->
