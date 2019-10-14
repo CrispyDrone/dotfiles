@@ -1,0 +1,104 @@
+# -------------------------------- COMMIT START -------------------------------
+#<type>[(optional scope)]: <description>
+
+#[optional body]
+
+#[optional footer or footers]
+
+# --------------------------------- COMMIT END --------------------------------
+# ------------------------------- COMMIT HEADER -------------------------------
+#
+# The commit header consists of a <type>, an optional (<scope>), an optional
+# exclamation mark in case the commit introduces breaking changes, and finally
+# a mandatory description message.
+# 
+# Rules:
+#    The commit header must include the exclamation mark in case there is no
+#        footer with 'BREAKING CHANGE: <description>' included.
+#
+## ----------------------------------- TYPE -----------------------------------
+#
+# Type is mandatory and explains the effect the changes have on the codebase.
+#
+# Rules:
+#     The type has to be in lower case.
+#     The type has to be one of the values as described below.
+#     The type can not be longer than 50 characters, scope and description
+#         included.
+#
+# Type can be:
+#    feat     (new feature)
+#    fix      (bug fix)
+#    refactor (refactoring production code)
+#    style    (formatting, missing semi colons, etc; no code change)
+#    docs     (changes to documentation)
+#    test     (adding or refactoring tests; no production code change)
+#    chore    (updating .gitignore etc; no production code change)
+#
+## ----------------------------------- SCOPE ----------------------------------
+#
+# Scope is optional and provides additional contextual information for example
+# about the component that was changed.
+#
+# Rules:
+#     The scope has to be in lower case.
+#     The scope has to be surrouneded by parentheses.
+#     The scope can not be longer than 50 characters, type and description
+#         included
+#
+# Some examples:
+#    init
+#    setup
+#    parser
+#    orm
+#    web-client
+#    web-api
+#
+## ------------------------------- DESCRIPTION --------------------------------
+#
+# The description is mandatory and has to be written with the imperative tense. 
+# An easy way to come up with a good description is to apply the following
+# mindset: "If applied, this commit will..."
+#
+# Rules:
+#     The description has to immediately follow the type/scope prefix.
+#     The description has to be capitalized.
+#     The description does *not* end in a period.
+#     The description can not be longer than 50 characters, type/scope prefix
+#         included.
+#
+# ------------------------------------ BODY -----------------------------------
+#
+# The body is optional however strongly recommended. It should provide
+# additional context that allows the reader to understand the what and why of
+# the changes this commit introduces. Don't explain *how* you implemented it,
+# the code changes do that for you.
+#
+# Rules:
+#     The body should be separated from the subject by a blank line.
+#
+# ---------------------------------- FOOTERS ----------------------------------
+# 
+# Footers are optional and can be used to indicate that the commit introduces 
+# a breaking change, or to link additional metadata such as links to issues. 
+#
+# Rules:
+#     The first footer should be separated from the body by a blank line.
+#     In case the header does not include an exclamation mark, a footer must
+#         be included with 'BREAKING CHANGE: <reason>' (without quotes). 
+#     A footer, not including breaking change, consists of a word token (a
+#         single- or multiword string with spaces replaced by '-') followed by 
+#         ':<space>' or '<space>#' and a string value.
+#
+# Examples:
+#     JIRA_TICKET #done
+#     JIRA_TICKET #comment This is a comment
+#     Reviewed-by: Z
+#     Issue #133
+#
+# -------------------------------- EXTRA INFO ---------------------------------
+#
+# To learn more about conventional commits, see the following references:
+#     https://www.conventionalcommits.org/en/v1.0.0/
+#
+# -----------------------------------------------------------------------------
