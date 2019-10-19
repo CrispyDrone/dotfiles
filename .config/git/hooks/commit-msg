@@ -1,0 +1,15 @@
+#!usr/bin/bash
+commit_msg_loc="$1"
+commit_msg="$(<"$commit_msg_loc")"
+
+commit_lint_feedback=$(printf "$commit_msg" | commitlint)
+commit_is_valid=$?
+
+echo "$commit_lint_feedback"
+
+if [ $commit_is_valid -eq 0 ]
+then
+	exit 0
+else
+	exit 1
+fi
