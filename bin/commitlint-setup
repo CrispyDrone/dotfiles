@@ -1,0 +1,67 @@
+#!/usr/bin/env bash
+# 1. Install commitlint-plugin-cleanfeet globally (it will install commitlint by default??)
+# 2. Get the commit template, install in ~/.config/git/commit-template
+# 3. Get the commitlint.config.js file
+# 4. Get the commit-msg hook
+# 5. Receive a root directory
+## 5.1. Install commitlint.config.js in every git directory
+## 5.2. Install commit-msg hook in every git directory
+## 5.3. Configure git to use commit-template in every git directory
+isNpmPackageInstalled() {
+	npm list --depth 1 -g $1
+}
+
+createDirectoryIfNotExists()
+{
+	if [ ! -d "$1" ]
+	then
+		mkdir -p "$1"
+	fi
+}
+
+readonly repo=$1
+
+# Todo: check if git directory
+
+declare -a dependencies_info
+
+dependencies_info+=("$(where npm)")
+dependencies_met=$?
+dependencies_info+=("$(where curl)")
+dependencies_met=$(($dependencies_met|$?))
+dependencies_info+=("$(isNpmPackageInstalled @commitlint/config-conventional)")
+dependencies_met=$(($dependencies_met|$?))
+dependencies_info+=("$(isNpmPackageInstalled @commitlint/cli)")
+dependencies_met=$(($dependencies_met|$?))
+dependencies_info+=("$(isNpmPackageInstalled commitlint-plugin-cleanfeet)")
+dependencies_met=$(($dependencies_met|$?))
+
+if [ $dependencies_met -ne 0 ]
+then
+	printf "one or multiple dependencies are not installed:\n"
+	printf "${dependencies_info}"
+	exit 1
+fi
+
+# get commit template
+createDirectoryIfNotExists "~/.config/git"
+curl -s https://raw.githubusercontent.com/CrispyDrone/dotfiles/interparking/.config/git/commit-template > ~/.config/git/commit-template
+
+# get commit message hook
+createDirectoryIfNotExists "~/.config/git/hooks"
+curl -s https://raw.githubusercontent.com/CrispyDrone/dotfiles/interparking/.config/git/hooks/commit-msg > ~/.config/git/hooks/commit-msg
+
+# get commitlint configuration
+createDirectoryIfNotExists "~/.config/commitlint"
+curl -s https://raw.githubusercontent.com/CrispyDrone/dotfiles/interparking/.config/commitlint/commitlint.config.js > ~/.config/commitlint/commitlint.config.js
+
+# assume this is the real root dir of the repo for now
+cd "${repo}" >/dev/null
+
+# configure commit template
+git config --local commit.template ~/.config/git/commit-template
+# copy commit hook
+cp ~/.config/git/hooks/commit-msg .git/hooks/commit-msg
+# copy commitlint configuration
+cp ~/.config/commitlint/commitlint.config.js commitlint.config.js
+
