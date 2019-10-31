@@ -2,7 +2,7 @@ snippet template "Insert sql script header and basic setup commands." b
 -- Author: `echo %USERNAME%`$1
 -- Date: `!v strftime("%Y-%m-%d %H:%M")`
 -- Ticket: `!p from pathlib import Path;tickets_index=1; tickets_match=False; 
-for dir in Path(path).parts: 
+for dir in Path(vim.eval('expand("%:p")')).parts: 
   if tickets_match:
     if tickets_index == 2:
       snip.rv=dir
