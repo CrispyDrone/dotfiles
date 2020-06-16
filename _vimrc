@@ -161,6 +161,9 @@ nnoremap <C-W><C-F> <C-W>vgf
 " Revert with ":iunmap <C-U>".
 inoremap <C-U> <C-G>u<C-U>
 
+" Create mapping to easily switch to a file's directory
+nnoremap <leader>cd :cd %:p:h<CR>:pwd<CR>
+
 " Convenient command to see the difference between the current buffer and the
 " file it was loaded from, thus the changes you made.
 " Only define it when not defined already.
