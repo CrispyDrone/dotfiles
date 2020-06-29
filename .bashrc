@@ -1,5 +1,5 @@
 # aliases
-alias gvim="'/c/Program Files (x86)/Vim/vim81/gvim.exe'"
+alias gvim="'/c/Program Files (x86)/Vim/vim81-2244/gvim.exe'"
 alias config='/usr/bin/env git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 # TODO: This should only be run in case of the terminal emulator mintty being used.
 # See the following links:
