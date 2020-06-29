@@ -179,6 +179,18 @@ inoremap <C-U> <C-G>u<C-U>
 " Create mapping to easily switch to a file's directory
 nnoremap <leader>cd :cd %:p:h<CR>:pwd<CR>
 
+" Allow for a convenient way to quickly increase and decrease font size
+nnoremap <silent> <C-Up> :silent! let &guifont = substitute(
+ \ &guifont,
+ \ ':h\zs\d\+',
+ \ '\=eval(submatch(0)+1)',
+ \ 'g')<CR>
+nnoremap <silent> <C-Down> :silent! let &guifont = substitute(
+ \ &guifont,
+ \ ':h\zs\d\+',
+ \ '\=eval(submatch(0)-1)',
+ \ 'g')<CR>
+
 " Convenient command to see the difference between the current buffer and the
 " file it was loaded from, thus the changes you made.
 " Only define it when not defined already.
