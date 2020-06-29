@@ -45,6 +45,7 @@ set sessionoptions-=options                                     " remove certain
 								" see <https://github.com/vim/vim/issues/4950>
 
 set undofile							" enable persistent undo
+set backup							" ensure that older backup files are automatically deleted
 
 "<-------------------- END OPTIONS -------------------->
 
