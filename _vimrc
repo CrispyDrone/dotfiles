@@ -118,6 +118,12 @@ let g:ctrlp_max_depth = 40					" increase default search depth
 
 " <<-------------------- END CTRLP -------------------->>
 
+"<<-------------------- STARTIFY -------------------->>
+"
+let g:startify_session_dir = '~/Dropbox/Notes/_vim/_session'
+
+"<<-------------------- END STARTIFY -------------------->>
+
 "<<-------------------- LIGHTLINE -------------------->>
 
 let g:lightline = {
@@ -227,6 +233,7 @@ Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'aquach/vim-http-client'
 Plugin 'itchyny/calendar.vim'
 Plugin 'tpope/vim-surround'
+Plugin 'mhinz/vim-startify'
 Plugin 'itchyny/lightline.vim'
 call vundle#end()            			" required
 filetype plugin indent on 			" filetype detection on + plugin loading on + indentation on (?)
