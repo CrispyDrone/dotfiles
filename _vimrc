@@ -196,11 +196,25 @@ endif
 
 "<-------------------- AUTOCOMMANDS -------------------->
 
+"<<-------------------- VIM -------------------->>
+
 " automatically create any missing directories when saving a file
 augroup vimrc
 	autocmd!
 	au BufWritePre,FileWritePre * silent! call mkdir(expand('<afile>:p:h'), 'p')
 augroup END
+
+"<<-------------------- END VIM -------------------->>
+
+"<<-------------------- DIRVISH -------------------->>
+
+map - -
+"augroup dirvish_config
+"  autocmd!
+"  autocmd FileType dirvish silent! unmap -
+"augroup END
+
+"<<-------------------- END DIRVISH -------------------->>
 
 "<-------------------- END AUTOCOMMANDS -------------------->
 
