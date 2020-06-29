@@ -15,6 +15,7 @@ set guioptions-=r                                               " Disable righth
 set guioptions-=L                                               " Disable lefthand scrollbar
 set ruler                                                       " Show the cursor position all the time
 set showcmd							" display incomplete commands
+set noshowmode							" hides the displaying of currently active mode
 
 set langmenu=en_US.UTF-8                                        " Set menu language to english and language (used during error messages 
 language en_US                                                  " etc..?? to english)
@@ -117,6 +118,14 @@ let g:ctrlp_max_depth = 40					" increase default search depth
 
 " <<-------------------- END CTRLP -------------------->>
 
+"<<-------------------- LIGHTLINE -------------------->>
+
+let g:lightline = {
+      \ 'colorscheme': 'solarized',
+      \ }
+
+"<<-------------------- END LIGHTLINE -------------------->>
+
 "<-------------------- END VARIABLES -------------------->
 
 "<-------------------- FUNCTIONS -------------------->
@@ -218,6 +227,7 @@ Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'aquach/vim-http-client'
 Plugin 'itchyny/calendar.vim'
 Plugin 'tpope/vim-surround'
+Plugin 'itchyny/lightline.vim'
 call vundle#end()            			" required
 filetype plugin indent on 			" filetype detection on + plugin loading on + indentation on (?)
 syntax enable 					" highlighting and syntax colours enabled
