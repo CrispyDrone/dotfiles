@@ -38,9 +38,9 @@ set exrc                                                        " allow project 
 
 set secure                                                      " disable unsecure commands in project specific vimrc files
 
-set sessionoptions-=options                                     " remove certain options from being saved when using mksession command for plugin compatibility reasons
+"set sessionoptions-=options                                     " remove certain options from being saved when using mksession command for plugin compatibility reasons
 
-"set shell=$PROGRAMW6432\Git\bin\bash.exe			" set :term terminal to bash instead of cmd.exe
+"set shell=\"$PROGRAMW6432\Git\bin\bash.exe\"			" set :term terminal to bash instead of cmd.exe
 								" this currently breaks :!{cmd} and :PluginInstall from Vundle
 								" see <https://github.com/vim/vim/issues/4950>
 
@@ -149,6 +149,40 @@ function! HandleURL()                                           " Since we disab
     endif
 endfunction
 
+"set diffexpr=MyDiff()						" Default diff function
+"function MyDiff()
+"  let opt = '-a --binary '
+"  if &diffopt =~ 'icase' | let opt = opt . '-i ' | endif
+"  if &diffopt =~ 'iwhite' | let opt = opt . '-b ' | endif
+"  let arg1 = v:fname_in
+"  if arg1 =~ ' ' | let arg1 = '"' . arg1 . '"' | endif
+"  let arg1 = substitute(arg1, '!', '\!', 'g')
+"  let arg2 = v:fname_new
+"  if arg2 =~ ' ' | let arg2 = '"' . arg2 . '"' | endif
+"  let arg2 = substitute(arg2, '!', '\!', 'g')
+"  let arg3 = v:fname_out
+"  if arg3 =~ ' ' | let arg3 = '"' . arg3 . '"' | endif
+"  let arg3 = substitute(arg3, '!', '\!', 'g')
+"  if $VIMRUNTIME =~ ' '
+"    if &sh =~ '\<cmd'
+"      if empty(&shellxquote)
+"        let l:shxq_sav = ''
+"        set shellxquote&
+"      endif
+"      let cmd = '"' . $VIMRUNTIME . '\diff"'
+"    else
+"      let cmd = substitute($VIMRUNTIME, ' ', '" ', '') . '\diff"'
+"    endif
+"  else
+"    let cmd = $VIMRUNTIME . '\diff'
+"  endif
+"  let cmd = substitute(cmd, '!', '\!', 'g')
+"  silent execute '!' . cmd . ' ' . opt . arg1 . ' ' . arg2 . ' > ' . arg3
+"  if exists('l:shxq_sav')
+"    let &shellxquote=l:shxq_sav
+"  endif
+"endfunction
+
 "<-------------------- END FUNCTIONS -------------------->
 
 
@@ -205,6 +239,26 @@ if has('win32') || has('win64')
 	silent! vunmap <C-X>
 endif
 
+" Prevent dirvish from overriding - behavior unless in dirvish buffer
+map - -
+
+" Add mapping to quickly create diary entry
+" TODO: Use environment variable
+nnoremap <leader>dn :exec 'edit ~/Dropbox/Notes/Personal/Diary/' . strftime("%Y/%m-%d.md")<CR>
+
+" Add mapping to quickly create new note
+" TODO: Use environment variable
+command! -nargs=1 NewZettel :exec ':e ~/Dropbox/Zettelkasten/' . strftime("%Y%m%dT%H%M%S%z") . "-<args>.md"
+nnoremap <leader>zn :NewZettel 
+
+" Add mapping to quickly change directory to your zettelkasten
+nnoremap <leader>zz :cd ~/Dropbox/Zettelkasten<CR>
+
+" Add mapping to quickly search your zettelkasten
+" TODO: Use environment variable
+command! -nargs=1 SearchZettel vimgrep "<args>" ~/Dropbox/Zettelkasten/**/*.md
+nnoremap <leader>zs :SearchZettel 
+
 "<-------------------- END MAPPINGS -------------------->
 
 "<-------------------- AUTOCOMMANDS -------------------->
@@ -221,7 +275,6 @@ augroup END
 
 "<<-------------------- DIRVISH -------------------->>
 
-map - -
 "augroup dirvish_config
 "  autocmd!
 "  autocmd FileType dirvish silent! unmap -
@@ -246,6 +299,8 @@ endif
 "<-------------------- END PACKAGES -------------------->
 
 "<-------------------- PLUGINS -------------------->
+
+" consider using vim-plug instead because of issues with non-posix shells
 
 filetype off                  			" required
 call vundle#begin()
