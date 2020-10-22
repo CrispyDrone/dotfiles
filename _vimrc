@@ -28,7 +28,7 @@ set path+=**                                                    " Search down in
 
 set wildmenu                                                    " Display all matching files when we tab complete
 
-set rtp+=~\.vim\bundle\Vundle.vim                               
+set rtp+=~/.vim/bundle/Vundle.vim                               
 set rtp+=$HOME/mysnippets
 set directory=$HOME/Dropbox/Notes/_vim/_swp//                   " store backup, undo, and swap files in special directory
 set backupdir=$HOME/Dropbox/Notes/_vim/_backup//
