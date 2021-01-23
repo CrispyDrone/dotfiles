@@ -244,7 +244,7 @@ map - -
 
 " Add mapping to quickly create diary entry
 " TODO: Use environment variable
-nnoremap <leader>dn :exec 'edit ~/Dropbox/Notes/Personal/Diary/' . strftime("%Y/%m-%d.md")<CR>
+nnoremap <leader>dn :exec 'edit ~/Dropbox/Notes/Personal/Diary/' . strftime("%Y/%m-%d-%A.md")<CR>
 
 " Add mapping to quickly create new note
 " TODO: Use environment variable
