@@ -39,6 +39,7 @@ set sessionoptions-=options                                     " remove certain
 								" see <https://github.com/vim/vim/issues/4950>
 
 set undofile							" enable persistent undo
+set backup							" enable persistent backup
 
 "<-------------------- END OPTIONS -------------------->
 
@@ -127,6 +128,19 @@ function! HandleURL()                                           " Since we disab
       echo "No URI found in line."
     endif
 endfunction
+
+"function MyDiff()
+"	let opt = ""
+"	if &diffopt =~ "icase"
+"		let opt = opt . "-i "
+"	endif
+"	if &diffopt =~ "iwhite"
+"		let opt = opt . "-b "
+"	endif
+"	silent execute "!diff -a --binary " . opt . v:fname_in . " " . v:fname_new .
+"				\  " > " . v:fname_out
+"endfunction
+"set diffexpr=MyDiff()
 
 "<-------------------- END FUNCTIONS -------------------->
 

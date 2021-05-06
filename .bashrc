@@ -1,17 +1,22 @@
 # configuration
 LANG=EN
 # aliases
-alias gvim="'/c/Program Files (x86)/Vim/vim81/gvim.exe'"
+alias gvim="'/c/Program Files (x86)/Vim/vim82/gvim.exe'"
 alias config='/usr/bin/env git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 # TODO: This should only be run in case of the terminal emulator mintty being used.
 # See the following links:
 # 1. https://github.com/mintty/mintty/wiki/Tips#terminal-type-detection--check-if-running-inside-mintty 
 # 2. https://github.com/mintty/utils/blob/master/terminal
 alias http-prompt='winpty http-prompt'
+# thefuck doesn't work with confirmation in git-bash, see https://github.com/nvbn/thefuck/issues/672 
+#eval $(thefuck --alias fuck)
 
 # variables
-Tickets='E:\Interparking\Tickets'
-Requests='E:\Interparking\Requests'
+other='E:\Other'
+tickets='E:\Interparking\Tickets'
+requests='E:\Interparking\Requests'
+team='E:\Interparking\Interparking.Teams\ATeam'
+repos='E:\Interparking'
 MANPATH=$MANPATH:$HOME/share/man
 
 # functions

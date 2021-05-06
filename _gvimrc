@@ -32,3 +32,6 @@ function GuiTabLabel()
 endfunction
 
 set guitablabel=%{GuiTabLabel()}
+
+au GUIEnter * simalt ~x " start gvim maximized (only works on windows)
+

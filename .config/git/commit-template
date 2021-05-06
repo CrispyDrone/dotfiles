@@ -27,13 +27,13 @@
 #         included.
 #
 # Type can be:
-#    feat     (new feature)
-#    fix      (bug fix)
-#    refactor (refactoring production code)
-#    style    (formatting, missing semi colons, etc; no code change)
-#    docs     (changes to documentation)
-#    test     (adding or refactoring tests; no production code change)
-#    chore    (updating .gitignore etc; no production code change)
+#    feat     new feature
+#    fix      bug fix
+#    refactor refactoring production code
+#    style    formatting, missing semi colons, etc; no code change
+#    docs     changes to documentation
+#    test     adding or refactoring tests; no production code change
+#    chore    updating .gitignore etc; no production code change
 #
 ## ----------------------------------- SCOPE ----------------------------------
 #
@@ -53,6 +53,7 @@
 #    orm
 #    web-client
 #    web-api
+#    ci
 #
 ## ------------------------------- DESCRIPTION --------------------------------
 #
