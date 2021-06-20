@@ -40,7 +40,7 @@ set secure                                                      " disable unsecu
 
 "set sessionoptions-=options                                     " remove certain options from being saved when using mksession command for plugin compatibility reasons
 
-"set shell=\"$PROGRAMW6432\Git\bin\bash.exe\"			" set :term terminal to bash instead of cmd.exe
+set shell=\"C:\Program\ Files\Git\bin\bash.exe\"
 								" this currently breaks :!{cmd} and :PluginInstall from Vundle
 								" see <https://github.com/vim/vim/issues/4950>
 
