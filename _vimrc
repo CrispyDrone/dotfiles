@@ -28,7 +28,7 @@ set path+=**                                                    " Search down in
 
 set wildmenu                                                    " Display all matching files when we tab complete
 
-set rtp+=~/.vim/bundle/Vundle.vim                               
+set rtp+=~/.vim/
 set rtp+=$HOME/mysnippets
 set directory=$HOME/Dropbox/Notes/_vim/_swp//                   " store backup, undo, and swap files in special directory
 set backupdir=$HOME/Dropbox/Notes/_vim/_backup//
@@ -38,11 +38,9 @@ set exrc                                                        " allow project 
 
 set secure                                                      " disable unsecure commands in project specific vimrc files
 
-"set sessionoptions-=options                                     " remove certain options from being saved when using mksession command for plugin compatibility reasons
+"set sessionoptions-=options                                    " remove certain options from being saved when using mksession command for plugin compatibility reasons
 
-set shell=\"C:\Program\ Files\Git\bin\bash.exe\"
-								" this currently breaks :!{cmd} and :PluginInstall from Vundle
-								" see <https://github.com/vim/vim/issues/4950>
+set shell=\"$PROGRAMW6432\Git\bin\bash.exe\"			" this currently breaks :!{cmd} and :PluginInstall from Vundle
 
 set undofile							" enable persistent undo
 set backup							" ensure that older backup files are automatically deleted
@@ -300,25 +298,21 @@ endif
 
 "<-------------------- PLUGINS -------------------->
 
-" consider using vim-plug instead because of issues with non-posix shells
-
-filetype off                  			" required
-call vundle#begin()
-Plugin 'VundleVim/Vundle.vim' 			" let Vundle manage Vundle, required
-Plugin 'altercation/vim-colors-solarized'
-Plugin 'CrispyDrone/vim-tasks'
-Plugin 'OmniSharp/omnisharp-vim'
-Plugin 'SirVer/ultisnips'
-Plugin 'honza/vim-snippets'
-Plugin 'justinmk/vim-dirvish'
-Plugin 'ctrlpvim/ctrlp.vim'
-Plugin 'aquach/vim-http-client'
-Plugin 'itchyny/calendar.vim'
-Plugin 'tpope/vim-surround'
-Plugin 'mhinz/vim-startify'
-Plugin 'itchyny/lightline.vim'
-call vundle#end()            			" required
-filetype plugin indent on 			" filetype detection on + plugin loading on + indentation on (?)
-syntax enable 					" highlighting and syntax colours enabled
+call plug#begin('~/.vim/plugged')
+Plug 'junegunn/vim-plug'
+Plug 'altercation/vim-colors-solarized'
+Plug 'CrispyDrone/vim-tasks'
+Plug 'OmniSharp/omnisharp-vim'
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
+Plug 'justinmk/vim-dirvish'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'aquach/vim-http-client'
+Plug 'itchyny/calendar.vim'
+Plug 'tpope/vim-surround'
+Plug 'mhinz/vim-startify'
+Plug 'itchyny/lightline.vim'
+call plug#end()
 
 "<-------------------- END PLUGINS -------------------->
+"
