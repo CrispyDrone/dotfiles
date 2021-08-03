@@ -1,9 +1,6 @@
 "<-------------------- OPTIONS -------------------->
 
-set pythonthreedll=python37.dll                                 " set python dll path
-if has('python3')                                               " circumvent bug in vim where imp is deprecated in favor of importlib see <https://github.com/vim/vim/issues/3117>
-  silent! python3 1
-endif
+set pythonthreedll=python39.dll                                 " set python dll path
 
 set number                                                      " Set line numbers to always show
 set relativenumber                                              " Use relative line numbers
@@ -27,12 +24,14 @@ set path+=**                                                    " Search down in
                                                                 " Provides tab-completion for all file-related tasks
 
 set wildmenu                                                    " Display all matching files when we tab complete
+set wildmode=longest:full,full					" On first tab, complete till longest shared string, on second tab, complete next match. 
+								" Tab is used to switch modes; use CTRL-N/CTRL-P to navigate matches instead of tab!
 
 set rtp+=~/.vim/
 set rtp+=$HOME/mysnippets
-set directory=$HOME/Dropbox/Notes/_vim/_swp//                   " store backup, undo, and swap files in special directory
-set backupdir=$HOME/Dropbox/Notes/_vim/_backup//
-set undodir=$HOME/Dropbox/Notes/_vim/_undo//
+set directory=$HOME/Dropbox/_vim/_swp//                         " store backup, undo, and swap files in special directory
+set backupdir=$HOME/Dropbox/_vim/_backup//
+set undodir=$HOME/Dropbox/_vim/_undo//
 
 set exrc                                                        " allow project specific vimrc configuration
 
@@ -210,7 +209,7 @@ nnoremap <C-W><C-F> <C-W>vgf
 inoremap <C-U> <C-G>u<C-U>
 
 " Create mapping to easily switch to a file's directory
-nnoremap <leader>cd :cd %:p:h<CR>:pwd<CR>
+nnoremap <leader>cd :lcd %:p:h<CR>:pwd<CR>
 
 " Allow for a convenient way to quickly increase and decrease font size
 nnoremap <silent> <C-Up> :silent! let &guifont = substitute(

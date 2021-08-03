@@ -2,4 +2,6 @@
 	email = mybluewaterfall@hotmail.com
 	name = CrispyDrone
 [core]
-	editor = \"c:/Program Files (x86)/Vim/vim82/gvim.exe\"
+	editor = \"c:/Program Files/Vim/vim82/gvim.exe\"
+[credential]
+	helper = wincred
