@@ -43,6 +43,7 @@ set shell=\"$PROGRAMW6432\Git\bin\bash.exe\"			" this currently breaks :!{cmd} a
 
 set undofile							" enable persistent undo
 set backup							" ensure that older backup files are automatically deleted
+set shellslash							" use forward slashes when expanding path names
 
 "<-------------------- END OPTIONS -------------------->
 
@@ -256,6 +257,9 @@ nnoremap <leader>zz :cd ~/Dropbox/Zettelkasten<CR>
 command! -nargs=1 SearchZettel vimgrep "<args>" ~/Dropbox/Zettelkasten/**/*.md
 nnoremap <leader>zs :SearchZettel 
 
+" Omnisharp mappings
+nnoremap <F12> :OmniSharpGotoDefinition<CR>
+
 "<-------------------- END MAPPINGS -------------------->
 
 "<-------------------- AUTOCOMMANDS -------------------->
@@ -311,6 +315,7 @@ Plug 'itchyny/calendar.vim'
 Plug 'tpope/vim-surround'
 Plug 'mhinz/vim-startify'
 Plug 'itchyny/lightline.vim'
+Plug 'editorconfig/editorconfig-vim'
 call plug#end()
 
 "<-------------------- END PLUGINS -------------------->
