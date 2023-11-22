@@ -45,7 +45,6 @@ set undofile							" enable persistent undo
 set backup							" ensure that older backup files are automatically deleted
 set shellslash							" use forward slashes when expanding path names
 
-
 "<-------------------- END OPTIONS -------------------->
 
 "<-------------------- VARIABLES -------------------->
@@ -258,16 +257,14 @@ nnoremap <leader>zz :cd $PERSONAL_ZETTELKASTEN<CR>
 command! -nargs=1 SearchZettel vimgrep "<args>" $PERSONAL_ZETTELKASTEN/**/*.md
 nnoremap <leader>zs :SearchZettel 
 
-<<<<<<< HEAD
 " Omnisharp mappings
 nnoremap <F12> :OmniSharpGotoDefinition<CR>
-=======
+
 " Start interactive EasyAlign in visual mode (e.g. vipga)
 xmap ga <Plug>(EasyAlign)
 
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
->>>>>>> update
 
 "<-------------------- END MAPPINGS -------------------->
 
