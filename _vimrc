@@ -39,11 +39,12 @@ set secure                                                      " disable unsecu
 
 "set sessionoptions-=options                                    " remove certain options from being saved when using mksession command for plugin compatibility reasons
 
-set shell=\"$PROGRAMW6432\Git\bin\bash.exe\"			" this currently breaks :!{cmd} and :PluginInstall from Vundle
+set shell=\"$PROGRAMW6432\Git\bin\bash.exe\"
 
 set undofile							" enable persistent undo
 set backup							" ensure that older backup files are automatically deleted
 set shellslash							" use forward slashes when expanding path names
+
 
 "<-------------------- END OPTIONS -------------------->
 
@@ -119,7 +120,7 @@ let g:ctrlp_max_depth = 40					" increase default search depth
 
 "<<-------------------- STARTIFY -------------------->>
 "
-let g:startify_session_dir = '~/Dropbox/Notes/_vim/_session'
+let g:startify_session_dir = '~/Dropbox/_vim/_session'
 
 "<<-------------------- END STARTIFY -------------------->>
 
@@ -240,25 +241,33 @@ endif
 " Prevent dirvish from overriding - behavior unless in dirvish buffer
 map - -
 
+" Allow _ to explore current directory
+map _ <Plug>(dirvish_up)
+
 " Add mapping to quickly create diary entry
-" TODO: Use environment variable
-nnoremap <leader>dn :exec 'edit ~/Dropbox/Notes/Personal/Diary/' . strftime("%Y/%m-%d-%A.md")<CR>
+nnoremap <leader>dn :exec 'edit $PERSONAL_DIARY/' . strftime("%Y/%m-%d-%A.md")<CR>
 
 " Add mapping to quickly create new note
-" TODO: Use environment variable
-command! -nargs=1 NewZettel :exec ':e ~/Dropbox/Zettelkasten/' . strftime("%Y%m%dT%H%M%S%z") . "-<args>.md"
+command! -nargs=1 NewZettel :exec ':e $PERSONAL_ZETTELKASTEN/' . strftime("%Y%m%dT%H%M%S%z") . "-<args>.md"
 nnoremap <leader>zn :NewZettel 
 
 " Add mapping to quickly change directory to your zettelkasten
-nnoremap <leader>zz :cd ~/Dropbox/Zettelkasten<CR>
+nnoremap <leader>zz :cd $PERSONAL_ZETTELKASTEN<CR>
 
 " Add mapping to quickly search your zettelkasten
-" TODO: Use environment variable
-command! -nargs=1 SearchZettel vimgrep "<args>" ~/Dropbox/Zettelkasten/**/*.md
+command! -nargs=1 SearchZettel vimgrep "<args>" $PERSONAL_ZETTELKASTEN/**/*.md
 nnoremap <leader>zs :SearchZettel 
 
+<<<<<<< HEAD
 " Omnisharp mappings
 nnoremap <F12> :OmniSharpGotoDefinition<CR>
+=======
+" Start interactive EasyAlign in visual mode (e.g. vipga)
+xmap ga <Plug>(EasyAlign)
+
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
+>>>>>>> update
 
 "<-------------------- END MAPPINGS -------------------->
 
@@ -316,6 +325,8 @@ Plug 'tpope/vim-surround'
 Plug 'mhinz/vim-startify'
 Plug 'itchyny/lightline.vim'
 Plug 'editorconfig/editorconfig-vim'
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+Plug 'junegunn/vim-easy-align'
 call plug#end()
 
 "<-------------------- END PLUGINS -------------------->

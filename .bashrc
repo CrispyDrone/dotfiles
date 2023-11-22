@@ -11,7 +11,45 @@ alias config='/usr/bin/env git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 # 2. https://github.com/mintty/utils/blob/master/terminal
 alias http-prompt='winpty http-prompt'
 
+
 # functions
+dlvid()
+{
+	url="$1"
+	shift
+	yt-dlp -o "$(date +%Y-%m-%d)-%(title)s.%(ext)s" --no-overwrites --restrict-filenames "$@" -- "${url}"
+	#yt-dlp --format bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best -o "$(date +%Y-%m-%d)-%(title)s.%(ext)s" --no-overwrites --restrict-filenames --external-downloader=aria2c --external-downloader-args --min-split-size=1M --max-connection-per-server=16 --max-concurrent-downloads=16 --split=16 "$@" -- "${url}"
+}
+
+dlsong()
+{
+	url="$1"
+	shift
+	yt-dlp "${url}" -x -o "/w/Library/Music/Downloads/todo/$(date +%Y-%m-%d)-%(title)s.%(ext)s" --no-overwrites --restrict-filenames --external-downloader=aria2c --external-downloader-args '--min-split-size=1M --max-connection-per-server=16 --max-concurrent-downloads=16 --split=16' "$@"
+}
+
+dlpage()
+{
+	local url filename
+
+	while (($# > 0))
+	do
+		case "${1}" in
+			# TODO: don't assume it's a relative filename
+			-o) filename="$(pwd)/${2}" && shift;;
+			-u) url="${2}" && shift;;
+			*) url="${1}"
+		esac
+
+		shift
+	done
+
+	[ -z "${filename}" ] && filename="${url##*/}" && filename="${filename%%.*}" && filename="$(pwd)/$(date +%Y%m%dT%H%M%S)-${filename}.pdf"
+
+	chrome --headless --print-to-pdf="${filename}" --user-data-dir="$CHROME_USER_DATA_DIR" "${url}"
+	#echo "filename: ${filename}"
+}
+
 surf()
 {
 	# $1 should always be the argument to http-prompt's `--env`
