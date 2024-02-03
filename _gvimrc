@@ -1,10 +1,14 @@
+set guioptions+=!
 set guifont=Consolas:h10
 " set guifontwide=MingLiU:h10
 set background=dark
 " source $VIMRUNTIME/vimrc_example.vim
 
-colorscheme solarized
+" colorscheme solarized
 " colorscheme gruvbox
+colorscheme dracula
+" colorscheme gotham
+" colorscheme iceberg
 
 " change guitablabel
 function GuiTabLabel()

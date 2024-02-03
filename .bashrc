@@ -10,6 +10,7 @@ alias config='/usr/bin/env git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 # 1. https://github.com/mintty/mintty/wiki/Tips#terminal-type-detection--check-if-running-inside-mintty 
 # 2. https://github.com/mintty/utils/blob/master/terminal
 alias http-prompt='winpty http-prompt'
+alias jq='jq-win64.exe'
 
 
 # functions
@@ -17,7 +18,7 @@ dlvid()
 {
 	url="$1"
 	shift
-	yt-dlp -o "$(date +%Y-%m-%d)-%(title)s.%(ext)s" --no-overwrites --restrict-filenames "$@" -- "${url}"
+	yt-dlp -o "$(date +%Y-%m-%d)-%(title)s-[%(id)s].%(ext)s" --no-overwrites --restrict-filenames "$@" -- "${url}"
 	#yt-dlp --format bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best -o "$(date +%Y-%m-%d)-%(title)s.%(ext)s" --no-overwrites --restrict-filenames --external-downloader=aria2c --external-downloader-args --min-split-size=1M --max-connection-per-server=16 --max-concurrent-downloads=16 --split=16 "$@" -- "${url}"
 }
 
@@ -25,7 +26,7 @@ dlsong()
 {
 	url="$1"
 	shift
-	yt-dlp "${url}" -x -o "/w/Library/Music/Downloads/todo/$(date +%Y-%m-%d)-%(title)s.%(ext)s" --no-overwrites --restrict-filenames --external-downloader=aria2c --external-downloader-args '--min-split-size=1M --max-connection-per-server=16 --max-concurrent-downloads=16 --split=16' "$@"
+	yt-dlp "${url}" -x -o "W:\Library\Music\Downloads\todo\\$(date +%Y-%m-%d)-%(title)s-[%(id)s].%(ext)s" --download-archive "W:\Library\Music\Downloads\archive.txt" --no-overwrites --restrict-filenames --external-downloader=aria2c --external-downloader-args '--min-split-size=1M --max-connection-per-server=16 --max-concurrent-downloads=16 --split=16' "$@"
 }
 
 dlpage()

@@ -72,6 +72,16 @@ let g:OmniSharp_highlight_types = 2
 " Set the type lookup function to use the preview window instead of echoing it
 " let g:OmniSharp_typeLookupInPreview = 1
 let g:OmniSharp_server_stdio = 1
+" TODO: What if I decide to work on an older project? I need to reinstall the server every time?
+let g:OmniSharp_server_use_net6 = 1
+let g:OmniSharp_highlight_groups = {
+\ 'NamespaceName': 'Identifier',
+\ 'ClassName': 'Type',
+"\ 'StructName': 'Structure',
+\ 'StructName': 'DraculaOrange',
+\ 'ParameterName': 'DraculaOrange',
+\ 'InterfaceName': 'DraculaYellow'
+\}
 
 " start omnisharp-vim manually
 " let g:OmniSharp_start_server = 0
@@ -126,7 +136,10 @@ let g:startify_session_dir = '~/Dropbox/_vim/_session'
 "<<-------------------- LIGHTLINE -------------------->>
 
 let g:lightline = {
-      \ 'colorscheme': 'solarized',
+      "\ 'colorscheme': 'solarized',
+      \ 'colorscheme': 'dracula',
+      "\ 'colorscheme': 'gotham',
+      "\ 'colorscheme': 'iceberg',
       \ }
 
 "<<-------------------- END LIGHTLINE -------------------->>
@@ -134,14 +147,13 @@ let g:lightline = {
 "<-------------------- END VARIABLES -------------------->
 
 "<-------------------- FUNCTIONS -------------------->
-
 function! HandleURL()                                           " Since we disable netrw gx will not work any more. Create a function for it
   let s:uri = matchstr(getline("."), '[a-z]*:\/\/[^ >,;()]*')
-  let s:uri = shellescape(s:uri, 1)
-    echom s:uri
+  let s:uri = shellescape(s:uri, 1) 				" Shellslash breaks this. Not sure why! It adds single quotes somehow
     if s:uri != ""
-      silent exec "!start " . s:uri
-      :redraw!
+      echom s:uri
+      exec "! start " . s:uri
+      redraw!
     else
       echo "No URI found in line."
     endif
@@ -202,7 +214,7 @@ command! -nargs=? -complete=dir Sexplore belowright split | silent Dirvish <args
 command! -nargs=? -complete=dir Vexplore leftabove vsplit | silent Dirvish <args>
 
 " remap open file in split window to vertical version
-nnoremap <C-W><C-F> <C-W>vgf
+nnoremap <C-W><C-F> <C-W>v<C-W>rgf
 
 " CTRL-U in insert mode deletes a lot.  Use CTRL-G u to first break undo,
 " so that you can undo CTRL-U after inserting a line break.
@@ -260,12 +272,16 @@ nnoremap <leader>zs :SearchZettel
 " Omnisharp mappings
 nnoremap <F12> :OmniSharpGotoDefinition<CR>
 
-" Start interactive EasyAlign in visual mode (e.g. vipga)
-xmap ga <Plug>(EasyAlign)
+" Start interactive EasyAlign in visual mode
+xmap <leader>ga <Plug>(EasyAlign)
 
-" Start interactive EasyAlign for a motion/text object (e.g. gaip)
-nmap ga <Plug>(EasyAlign)
+" Start interactive EasyAlign for a motion/text object
+nmap <leader>ga <Plug>(EasyAlign)
 
+" Start interactive EasyAlign in visual mode
+vmap <Enter> <Plug>(EasyAlign)
+
+"let g:go_debug=['lsp', 'shell-commands']
 "<-------------------- END MAPPINGS -------------------->
 
 "<-------------------- AUTOCOMMANDS -------------------->
@@ -282,12 +298,35 @@ augroup END
 
 "<<-------------------- DIRVISH -------------------->>
 
-"augroup dirvish_config
-"  autocmd!
-"  autocmd FileType dirvish silent! unmap -
-"augroup END
+augroup dirvish_config
+  autocmd!
+  autocmd FileType dirvish silent! unmap <buffer> <C-p>
+  autocmd FileType dirvish let b:ctrlp_working_path_mode = 'c'
+augroup END
 
 "<<-------------------- END DIRVISH -------------------->>
+
+"<<-------------------- LIGHTLINE -------------------->>
+
+augroup lightline
+  autocmd!
+  autocmd ColorScheme * call s:lightline_update()
+augroup END
+
+function! s:lightline_update()
+  if !exists('g:loaded_lightline')
+    return
+  endif
+  try
+    let g:lightline.colorscheme = substitute(substitute(g:colors_name, '-', '_', 'g'), '256.*', '', '') " TODO: ?
+    call lightline#init()
+    call lightline#colorscheme()
+    call lightline#update()
+  catch
+  endtry
+endfunction
+
+"<<-------------------- END LIGHTLINE -------------------->>
 
 "<-------------------- END AUTOCOMMANDS -------------------->
 
@@ -307,6 +346,9 @@ endif
 
 "<-------------------- PLUGINS -------------------->
 
+let g:gitgutter_grep=''
+let g:gitgutter_log=1
+
 call plug#begin('~/.vim/plugged')
 Plug 'junegunn/vim-plug'
 Plug 'altercation/vim-colors-solarized'
@@ -324,7 +366,12 @@ Plug 'itchyny/lightline.vim'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'junegunn/vim-easy-align'
+Plug 'dracula/vim', { 'as': 'dracula' }
+Plug 'whatyouhide/vim-gotham'
+Plug 'cocopon/iceberg.vim'
+Plug 'mhinz/vim-signify'
 call plug#end()
 
+filetype plugin indent on
 "<-------------------- END PLUGINS -------------------->
 "
